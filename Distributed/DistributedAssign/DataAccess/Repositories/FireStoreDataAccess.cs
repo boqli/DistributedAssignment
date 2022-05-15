@@ -30,35 +30,6 @@ namespace DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<List<File>> GetFiles(string email)
-        {
-            // users >> ryanattard@gmail.com >> messages 
-
-            if ((await GetUser(email)) == null) return new List<File>(); //if user does not exist return an empty list
-
-            Query messageQuery = db.Collection("users").Document(email).Collection("files");
-            QuerySnapshot messageQuerySnapshot = await messageQuery.GetSnapshotAsync();
-
-            List<File> messages = new List<File>();
-
-
-            foreach (DocumentSnapshot documentSnapshot in messageQuerySnapshot.Documents)
-            {
-                messages.Add(documentSnapshot.ConvertTo<File>());
-            }
-
-            return messages;
-
-        }
-
-        public async Task<WriteResult> SendMessage(string email, File msg)
-        {
-            DocumentReference docRef = db.Collection("users").Document(email).Collection("files").Document(msg.Id);
-            
-            return await docRef.SetAsync(msg);
-
-        }
-
         public void UpdateUser(User user)
         {
             throw new NotImplementedException();
@@ -86,18 +57,7 @@ namespace DataAccess.Repositories
             }
         }
 
-        public async void purchase(int credit, int cost, string email)
-        {
-            var myUser = await GetUser(email);
-            var final = myUser.creditCount + credit;
-            DocumentReference docRef = db.Collection("users").Document(email);
-            Dictionary<string, object> u = new Dictionary<string, object>
-            {
-                { "creditCount", final }
-            };
-            await docRef.UpdateAsync(u);
-        }
-
+        /*
         public async void minusCredit(string email)
         {
             var myUser = await GetUser(email);
@@ -109,7 +69,7 @@ namespace DataAccess.Repositories
             };
             await docRef.UpdateAsync(u);
         }
-
+        */
 
 
         public async Task<User> GetUsers()
@@ -154,41 +114,7 @@ namespace DataAccess.Repositories
 
         }
 
-        public async void deleteBucketFirestoreFiles(string bucketName,string email)
-        {
-            var storage = StorageClient.Create();
-            var storageObjects = storage.ListObjects(bucketName);
-
-            foreach (var storageObject in storageObjects)
-            {
-                var time = DateTime.Compare((DateTime)storageObject.TimeCreated, DateTime.Now);
-
-                if (time > 0) // not same day
-                {
-                    storage.DeleteObject(bucketName, storageObject.Name);
-                }
-            }
-            
-            Query messageQuery = db.Collection("users").Document(email).Collection("files");
-            QuerySnapshot messageQuerySnapshot = await messageQuery.GetSnapshotAsync();
-
-            List<File> messages = new List<File>();
-            foreach (DocumentSnapshot documentSnapshot in messageQuerySnapshot.Documents)
-            {
-                messages.Add(documentSnapshot.ConvertTo<File>());
-            }
-
-            foreach (var msg in messages)
-            {
-                var time = DateTime.Compare(msg.DateSent, DateTime.Now);
-
-                if (time > 0) // not same day
-                {
-                    //delete from firestore
-                }
-            }
-
-        }
+       
 
     }
 }

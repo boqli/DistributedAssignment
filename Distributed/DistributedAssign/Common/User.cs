@@ -16,44 +16,62 @@ namespace Common
 
         [FirestoreProperty]
         public string LastName { get; set; }
-        [FirestoreProperty]
-        public int creditCount { get; set; }
-
     }
-    [FirestoreData]
-    public class File
-    {
-        [FirestoreProperty]
-        public string Id { get; set; }
 
-        [FirestoreProperty]
-        public DateTime DateSent { get; set; }
-
-        [FirestoreProperty]
-        public string Name { get; set; }
-
-        [FirestoreProperty]
-        public string Attachment { get; set; }
-
-        [FirestoreProperty]
-        public string newLink { get; set; }
-    }
 
     [FirestoreData]
-    public class Message
+    public class Fund
     {
         [FirestoreProperty]
-        public string Id { get; set; }
-        
-        [FirestoreProperty, ServerTimestamp]
-        public Google.Cloud.Firestore.Timestamp DateSent { get; set; }
+        public int BankAccountNo { get; set; }
 
         [FirestoreProperty]
-        public string Recipient { get; set; }
-        [FirestoreProperty]
-        public string Text { get; set; }
+        public string BankCode { get; set; }
 
         [FirestoreProperty]
-        public string Attachment { get; set; }
+        public string BankName { get; set; }
+
+        [FirestoreProperty]
+        public string Country { get; set; }
+
+        [FirestoreProperty]
+        public string CountryCode { get; set; }
+
+        [FirestoreProperty]
+        public double OpeningBalance { get; set; }
+
+        [FirestoreProperty]
+        public string Payee { get; set; }
+
+        [FirestoreProperty]
+        public string id { get; set; }
     }
+
+    [FirestoreData]
+    public class Audits
+    {
+        [FirestoreProperty]
+        public string DateOfLog { get; set; }
+
+        [FirestoreProperty]
+        public string Payee { get; set; }
+
+        [FirestoreProperty]
+        public string Reciever { get; set; }
+
+        [FirestoreProperty]
+        public string id { get; set; }
+
+        [FirestoreProperty]
+        public double ReceivedAmount { get; set; }
+
+        [FirestoreProperty]
+        public double recieverAccountNo { get; set; }
+
+        [FirestoreProperty]
+        public string senderAccountNo { get; set; }
+
+    }
+
+
 }

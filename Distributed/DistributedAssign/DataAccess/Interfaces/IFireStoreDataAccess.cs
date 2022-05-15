@@ -15,17 +15,11 @@ namespace DataAccess.Interfaces
         Task<User> GetUsers();
         void AddUser(User user);
         void UpdateUser(User user);
-        Task<List<File>> GetFiles(string email);
 
-        Task<WriteResult> SendMessage(string email, File msg);
 
         void DeleteUser(string email);
 
-        void purchase(int credit, int cost, string email);
 
-        void minusCredit(string email);
-
-        void deleteBucketFirestoreFiles(string bucketName, string email);
 
     }
 }

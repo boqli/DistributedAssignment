@@ -11,13 +11,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccess.Interfaces;
+using DataAccess.Repositories;
 
 namespace TransferMicroService
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment host)
         {
+            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS",
+              host.ContentRootPath + @"/distributedboqli-c97f428ef434.json");
+
             Configuration = configuration;
         }
 
@@ -30,7 +35,11 @@ namespace TransferMicroService
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TransferMicroService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "APIs", Version = "v1" });
+            });
+            string projectName = Configuration["project"];
+            services.AddScoped<IFireStoreDataAccess, FireStoreDataAccess>(x => {
+                return new FireStoreDataAccess(projectName);
             });
         }
 
@@ -41,7 +50,7 @@ namespace TransferMicroService
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TransferMicroService v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "APIs v1"));
             }
 
             app.UseHttpsRedirection();

@@ -14,26 +14,10 @@ namespace Presentation.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IExceptionLogger _googleExceptionLogger;
-        public HomeController(ILogger<HomeController> logger, [FromServices] IExceptionLogger exceptionLogger )
-        {
-            _logger = logger;
-            _googleExceptionLogger = exceptionLogger;
-        }
 
         public IActionResult Index()
         {
-            _logger.LogInformation("Accessed the Index method");
 
-            try
-            {
-                throw new Exception("Demonstrating error reporting");
-            }
-            catch (Exception ex)
-            {
-                _googleExceptionLogger.Log(ex);
-            }
             return View();
         }
 

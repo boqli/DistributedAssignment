@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using DataAccess.Interfaces;
 using DataAccess.Repositories;
 
-namespace FundMicroService
+namespace Audit
 {
     public class Startup
     {

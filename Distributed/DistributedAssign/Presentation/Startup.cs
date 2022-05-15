@@ -24,8 +24,8 @@ namespace Presentation
     {
         public Startup(IConfiguration configuration, IWebHostEnvironment host)
         {
-            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", 
-              host.ContentRootPath + @"/distributedboqli-c97f428ef434.json");
+            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS",
+              host.ContentRootPath + @"/distributedboqli-b87b5675c075.json");
 
             Configuration = configuration;
         }

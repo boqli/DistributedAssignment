@@ -45,6 +45,8 @@ namespace Common
 
         [FirestoreProperty]
         public string id { get; set; }
+        [FirestoreProperty]
+        public bool isActive { get; set; }
     }
 
     [FirestoreData]

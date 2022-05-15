@@ -14,10 +14,17 @@ namespace DataAccess.Interfaces
         Task<List<User>> GetAllUsers();
         Task<User> GetUsers();
         void AddUser(User user);
-        void UpdateUser(User user);
 
+        //FUNDS
+        Task<List<Fund>> createFund();
+        Task<List<Fund>> getAllFunds(string email);
+        Task<List<Fund>> getSpecificFund(string email, int bankAccNo);
+        void deactivate(string email, int bankAccNo);
+        void Deposit(string email, int bankAccNo, double money);
 
-        void DeleteUser(string email);
+        //TRANSFER - in controller
+
+        //AUDIT
 
 
 

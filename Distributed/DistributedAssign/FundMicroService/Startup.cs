@@ -21,7 +21,7 @@ namespace FundMicroService
         public Startup(IConfiguration configuration, IWebHostEnvironment host)
         {
             System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS",
-              host.ContentRootPath + @"/distributedboqli-c97f428ef434.json");
+              host.ContentRootPath + @"/distributedboqli-b87b5675c075.json");
 
             Configuration = configuration;
         }
@@ -33,6 +33,7 @@ namespace FundMicroService
         {
 
             services.AddControllers();
+            services.AddMvc();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "APIs", Version = "v1" });

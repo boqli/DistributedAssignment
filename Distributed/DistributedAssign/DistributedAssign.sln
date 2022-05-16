@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FundMicroService", "FundMic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransferMicroService", "TransferMicroService\TransferMicroService.csproj", "{29F55CD3-2CF4-4ED3-A6F4-6E6EFB673AD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audit", "Audit\Audit.csproj", "{439D419D-73B2-486E-9165-BF78D776BCE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Audit", "Audit\Audit.csproj", "{439D419D-73B2-486E-9165-BF78D776BCE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIs", "APIs\APIs.csproj", "{031146BB-59A9-4157-BA4F-22A421B4F5DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIs", "APIs\APIs.csproj", "{031146BB-59A9-4157-BA4F-22A421B4F5DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegisterMicroService", "RegisterMicroService\RegisterMicroService.csproj", "{EB2114EE-5F82-4EB8-8C05-3F6782E04A05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{031146BB-59A9-4157-BA4F-22A421B4F5DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{031146BB-59A9-4157-BA4F-22A421B4F5DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{031146BB-59A9-4157-BA4F-22A421B4F5DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB2114EE-5F82-4EB8-8C05-3F6782E04A05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB2114EE-5F82-4EB8-8C05-3F6782E04A05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB2114EE-5F82-4EB8-8C05-3F6782E04A05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB2114EE-5F82-4EB8-8C05-3F6782E04A05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

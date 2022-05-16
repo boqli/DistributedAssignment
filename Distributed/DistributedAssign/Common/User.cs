@@ -68,10 +68,10 @@ namespace Common
         public double ReceivedAmount { get; set; }
 
         [FirestoreProperty]
-        public double recieverAccountNo { get; set; }
+        public int recieverAccountNo { get; set; }
 
         [FirestoreProperty]
-        public string senderAccountNo { get; set; }
+        public int senderAccountNo { get; set; }
 
     }
 

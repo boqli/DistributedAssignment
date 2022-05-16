@@ -29,10 +29,17 @@ namespace TransferMicroService.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("transferToOwnAccount")]
         public async Task<IActionResult> transferToOwnAccount(string email, int fundAccSender, int fundAccReciever, double money)
         {
             fireStore.transferToOwnAccount(email, fundAccSender, fundAccReciever, money);
+            return Ok();
+        }
+
+        [HttpPost("transferToOtherAccount")]
+        public async Task<IActionResult> transferToOtherAccount(string email, int fundAccSender, int fundAccReciever, double money)
+        {
+            fireStore.transferToOtherAccount(email, fundAccSender, fundAccReciever, money);
             return Ok();
         }
     }

@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FundMicroService", "FundMicroService\FundMicroService.csproj", "{2E24978E-9322-4B60-9364-E2D89801E95C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransferMicroService", "TransferMicroService\TransferMicroService.csproj", "{29F55CD3-2CF4-4ED3-A6F4-6E6EFB673AD8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Audit", "Audit\Audit.csproj", "{439D419D-73B2-486E-9165-BF78D776BCE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIs", "APIs\APIs.csproj", "{031146BB-59A9-4157-BA4F-22A421B4F5DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegisterMicroService", "RegisterMicroService\RegisterMicroService.csproj", "{EB2114EE-5F82-4EB8-8C05-3F6782E04A05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransferMicroService", "TransferMicroService2\TransferMicroService.csproj", "{671BA838-61C4-482F-B91F-AB213B457A4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,6 @@ Global
 		{2E24978E-9322-4B60-9364-E2D89801E95C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E24978E-9322-4B60-9364-E2D89801E95C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E24978E-9322-4B60-9364-E2D89801E95C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29F55CD3-2CF4-4ED3-A6F4-6E6EFB673AD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29F55CD3-2CF4-4ED3-A6F4-6E6EFB673AD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29F55CD3-2CF4-4ED3-A6F4-6E6EFB673AD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29F55CD3-2CF4-4ED3-A6F4-6E6EFB673AD8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{439D419D-73B2-486E-9165-BF78D776BCE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{439D419D-73B2-486E-9165-BF78D776BCE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{439D419D-73B2-486E-9165-BF78D776BCE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +53,10 @@ Global
 		{EB2114EE-5F82-4EB8-8C05-3F6782E04A05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB2114EE-5F82-4EB8-8C05-3F6782E04A05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB2114EE-5F82-4EB8-8C05-3F6782E04A05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{671BA838-61C4-482F-B91F-AB213B457A4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{671BA838-61C4-482F-B91F-AB213B457A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{671BA838-61C4-482F-B91F-AB213B457A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{671BA838-61C4-482F-B91F-AB213B457A4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

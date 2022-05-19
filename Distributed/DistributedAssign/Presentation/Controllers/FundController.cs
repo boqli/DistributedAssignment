@@ -55,56 +55,62 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> getFunds()
         {
-            Fund fund = new Fund();
+            List<Fund> fund = new List<Fund>();
             HttpClient client = help.FundMicroService();//https://localhost:44335/getFunds?email=kyleisstar%40gmail.com
-            var stringContent = new StringContent(JsonConvert.SerializeObject(fund), Encoding.UTF8, "application/json");
-            HttpResponseMessage res = await client.PostAsync("getFunds?email=" + User.Claims.ElementAt(4).Value, stringContent);
+            HttpResponseMessage res = await client.GetAsync("getFunds?email=" + User.Claims.ElementAt(4).Value);
             if (res.IsSuccessStatusCode)
             {
                 var senten = res.Content.ReadAsStringAsync().Result;
-                fund = JsonConvert.DeserializeObject<Fund>(senten);
+                fund = JsonConvert.DeserializeObject<List<Fund>>(senten);
+                
             }
             return View(fund);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> disableFund()
+        {
+            return View();
+        }
+
 
         [HttpPost]
-        public async Task<ActionResult> disableFund(int fundAcc)
+        public async Task<ActionResult> disableFund(IFormCollection form)
         {
-            Fund fund = new Fund();
+            List<Fund> fund = new List<Fund>();
             HttpClient client = help.FundMicroService();//https://localhost:44335/deactivate?email=kyleisstar%40gmail.com&fundAcc=1
             var stringContent = new StringContent(JsonConvert.SerializeObject(fund), Encoding.UTF8, "application/json");
-            HttpResponseMessage res = await client.PostAsync("deactivate?email=" + User.Claims.ElementAt(4).Value+ "&fundAcc="+ fundAcc, stringContent);
+            HttpResponseMessage res = await client.PostAsync("deactivate?email=" + User.Claims.ElementAt(4).Value+ "&fundAcc="+ form["fundAcc"], stringContent);
             if (res.IsSuccessStatusCode)
             {
                 var senten = res.Content.ReadAsStringAsync().Result;
-                fund = JsonConvert.DeserializeObject<Fund>(senten);
             }
-            return View(fund);
+            return RedirectToAction("getFunds");
         }
 
-            /*
-            [HttpGet("getFunds")]
-            public async Task<IActionResult> getFunds(string email)
-            {
-                List<Fund> funds = await fireStore.getAllFunds(email);
-                return Ok(funds);
+        /*
+        [HttpGet("getFunds")]
+        public async Task<IActionResult> getFunds(string email)
+        {
+            List<Fund> funds = await fireStore.getAllFunds(email);
+            return Ok(funds);
 
-            }
-
-            [HttpGet("getSpecificFund")]
-            public async Task<IActionResult> getSpecificFund(string email, int bankAccNo)
-            {
-                List<Fund> fund = await fireStore.getSpecificFund(email, bankAccNo);
-                return Ok(fund);
-
-            }
-
-            [HttpPost("deactivate")]
-            public async Task<IActionResult> deactivate(string email, int fundAcc)
-            {
-                fireStore.deactivate(email, fundAcc);
-                return Ok();
-            }
-            */
         }
+
+        [HttpGet("getSpecificFund")]
+        public async Task<IActionResult> getSpecificFund(string email, int bankAccNo)
+        {
+            List<Fund> fund = await fireStore.getSpecificFund(email, bankAccNo);
+            return Ok(fund);
+
+        }
+
+        [HttpPost("deactivate")]
+        public async Task<IActionResult> deactivate(string email, int fundAcc)
+        {
+            fireStore.deactivate(email, fundAcc);
+            return Ok();
+        }
+        */
+    }
 }

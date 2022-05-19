@@ -4,7 +4,7 @@
     ViewData["Title"] = "getFunds2";
 }
 
-<h1>getFunds2</h1>
+<h1>getFunds</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -73,7 +73,7 @@
                 @Html.DisplayFor(modelItem => item.isActive)
             </td>
             <td>
-                <a role="button" href="@Url.Action("Disable", "disableFund")?fundAcc=@Html.DisplayFor(modelItem => item.id)" class="btn btn-success">Disable</a>
+                <a role="button" href="@Url.Action("disableFund", "Fund")" class="btn btn-success">Active Status</a>
             </td>
         </tr>
 }

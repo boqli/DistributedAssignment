@@ -28,15 +28,24 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Register</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Fund" asp-action="Index">Funds</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Transfer" asp-action="Index">Transfer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="Index">Audits</a>
+                            </li>
 
                         }
-                            @*@foreach(var menu in myMenus)
-            {
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="@menu.Link">@menu.Text</a>
-            </li>
-            }*@
-                        </ul>
+                        @*@foreach(var menu in myMenus)
+        {
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="@menu.Link">@menu.Text</a>
+        </li>
+        }*@
+                    </ul>
                 </div>
 
                 <div class="justify-content-end">

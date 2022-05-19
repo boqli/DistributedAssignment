@@ -1,0 +1,37 @@
+﻿@model Common.Audits
+
+@{
+    ViewData["Title"] = "getByDateAudits";
+}
+
+<h1>getByDateAudits</h1>
+
+<h4>Audits</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="getByDateAudits">
+
+            <div class="form-group">
+                <label class="control-label">Date From ( Fromat 11/22/2022 )</label>
+                <input type="text" name="dateFrom" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Date To ( Fromat 12/22/2022 )</label>
+                <input type="text" name="dateTo" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Get Audits" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

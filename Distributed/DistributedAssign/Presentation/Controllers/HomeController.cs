@@ -35,7 +35,7 @@ namespace Presentation.Controllers
         [Authorize]
         public IActionResult LogIn()
         {
-            return RedirectToAction("Index");
+            return RedirectToAction("getFunds", "Fund");
         }
 
         public async Task<IActionResult> Logout()

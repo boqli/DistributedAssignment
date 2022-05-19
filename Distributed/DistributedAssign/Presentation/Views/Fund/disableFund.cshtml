@@ -1,0 +1,32 @@
+﻿@model Common.Fund
+
+@{
+    ViewData["Title"] = "disableFund";
+}
+
+<h1>Disable or Enable fund</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="disableFund">
+
+            <div class="form-group">
+                <label class="control-label">Fund Account No</label>
+                <input type="number" name="fundAcc" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Disable or Enable" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

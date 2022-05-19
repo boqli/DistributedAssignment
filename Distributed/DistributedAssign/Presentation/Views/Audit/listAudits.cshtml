@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Common.Audits>
+
+@{
+    ViewData["Title"] = "getAudits";
+}
+
+<h1>getAudits</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Payee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reciever)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivedAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.recieverAccountNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.senderAccountNo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Payee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reciever)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceivedAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.recieverAccountNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.senderAccountNo)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

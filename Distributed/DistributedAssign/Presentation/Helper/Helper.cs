@@ -26,7 +26,7 @@ namespace Presentation.Helper
             return Client;
         }
 
-        public HttpClient Audit()
+        public HttpClient AuditMicroService()
         {
             var Client = new HttpClient();
             Client.BaseAddress = new Uri("https://localhost:44374/");

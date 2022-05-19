@@ -151,12 +151,25 @@ namespace DataAccess.Repositories
         }
         public async void deactivate(string email, int bankAccNo)
         {
+            List<Fund> fund = await getSpecificFund(email, bankAccNo);
             DocumentReference doc = db.Collection("fund").Document(bankAccNo.ToString());
-            Dictionary<string, object> u = new Dictionary<string, object>
+            if (fund[0].isActive == true)
             {
-                {"isActive", false }
-            };
-            await doc.UpdateAsync(u);
+                Dictionary<string, object> u = new Dictionary<string, object>
+                {
+                    {"isActive", false }
+                };
+                await doc.UpdateAsync(u);
+            }
+            else
+            {
+                Dictionary<string, object> u = new Dictionary<string, object>
+                {
+                    {"isActive", true }
+                };
+                await doc.UpdateAsync(u);
+            }
+            
         }
 
         //-------------------------TRANSACTIONS---------------------------

@@ -10,50 +10,46 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Presentation.Helper;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Presentation.Controllers
 {
     public class UsersController : Controller
     {
-        private IFireStoreDataAccess fireStore;
 
-        public UsersController(IFireStoreDataAccess _fireStore)
-        {
-            fireStore = _fireStore;
-        }
+        MicroServices help = new MicroServices();
 
-        [Authorize]
-        public async Task< IActionResult> Index()
+        public async Task<ActionResult> Index()
         {
-            var myUser = await fireStore.GetUser(User.Claims.ElementAt(4).Value);
-            if(myUser == null)
+            User user = new User();
+
+            HttpClient client = help.RegisterMicroService();
+            HttpResponseMessage res = await client.GetAsync("PUTMEthodhere?email=" + User.Claims.ElementAt(4).Value);
+
+            if (res.IsSuccessStatusCode)
             {
-                myUser = new Common.User();
-                myUser.Email = User.Claims.ElementAt(4).Value;
+                var senten = res.Content.ReadAsStringAsync().Result;
+                user = JsonConvert.DeserializeObject<User>(senten);
             }
-            return View(myUser);
+            return View(user);
         }
 
-        public IActionResult Register(User user)
+        public async Task<IActionResult> Register(IFormCollection fr)
         {
-            
-            user.Email = User.Claims.ElementAt(4).Value;
-            user.FirstName = User.Claims.ElementAt(2).Value;
-            user.LastName = User.Claims.ElementAt(3).Value;
-            
-            fireStore.AddUser(user);
+            User user = new User();
+            HttpClient client = help.RegisterMicroService();
+            var stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+            HttpResponseMessage res = await client.PostAsync("Register/Register?email=" + User.Claims.ElementAt(4).Value + "&name=" +fr["FirstName"] + "&surname=" + fr["LastName"] ,stringContent);
+            if (res.IsSuccessStatusCode)
+            {
+                var senten = res.Content.ReadAsStringAsync().Result;
+                user = JsonConvert.DeserializeObject<User>(senten);
+            }
             return RedirectToAction("Index");
         }
-        [Authorize]
-        public async Task<IActionResult> List()
-        {
-            List<User> users = await fireStore.GetAllUsers();
-            return View(users);
-        }
-
-
-
-
 
     }
 }

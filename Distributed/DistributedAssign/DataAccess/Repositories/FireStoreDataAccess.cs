@@ -138,6 +138,17 @@ namespace DataAccess.Repositories
             return messages;
         }
 
+        public async Task<List<Fund>> getSpecificFundWithId(string email, int bankAccNo)
+        {
+            Query messageQuery = db.Collection("fund").WhereEqualTo("BankAccountNo", bankAccNo);
+            QuerySnapshot messageQuerySnapshot = await messageQuery.GetSnapshotAsync();
+            List<Fund> messages = new List<Fund>();
+            foreach (DocumentSnapshot documentSnapshot in messageQuerySnapshot.Documents)
+            {
+                messages.Add(documentSnapshot.ConvertTo<Fund>());
+            }
+            return messages;
+        }
         public async void deactivate(string email, int bankAccNo)
         {
             DocumentReference doc = db.Collection("fund").Document(bankAccNo.ToString());
@@ -160,6 +171,7 @@ namespace DataAccess.Repositories
                     {"OpeningBalance", fund[0].OpeningBalance+ money }
                 };
                 await doc.UpdateAsync(u);
+                Task<Audits> aud = createAudit(fund[0].Payee, "Self", bankAccNo, bankAccNo, money);
             }
         }
 
@@ -167,7 +179,7 @@ namespace DataAccess.Repositories
         {
             List<Fund> fundSender = await getSpecificFund(email, fundAccSender);
             List<Fund> fundReciever = await getSpecificFund(email, fundAccReciever);
-            
+            //check currency 
             if(fundSender[0].Payee == fundReciever[0].Payee)
             {
                 if(fundSender[0].OpeningBalance > money)
@@ -184,6 +196,7 @@ namespace DataAccess.Repositories
                     };
                     var a = await doc.UpdateAsync(u);
                     var b = await doc2.UpdateAsync(u2);
+                    Task<Audits> aud = createAudit(fundSender[0].Payee, "Self", fundAccSender, fundAccReciever, money);
                 } 
             }
         }
@@ -191,7 +204,7 @@ namespace DataAccess.Repositories
         public async Task transferToOtherAccount(string email, int fundAccSender, int fundAccReciever, double money)
         {
             List<Fund> fundSender = await getSpecificFund(email, fundAccSender);
-            List<Fund> fundReciever = await getSpecificFund(email, fundAccReciever);
+            List<Fund> fundReciever = await getSpecificFundWithId(email, fundAccReciever);
 
             if (fundSender[0].Payee != fundReciever[0].Payee)
             {
@@ -209,13 +222,15 @@ namespace DataAccess.Repositories
                     };
                     var a = await doc.UpdateAsync(u);
                     var b = await doc2.UpdateAsync(u2);
+
+                    Task<Audits> aud = createAudit(fundSender[0].Payee, fundReciever[0].Payee, fundAccSender, fundAccReciever, money);
                 }
             }
         }
 
         //-------------------------AUDITS/LOGS
 
-        public async Task<Audits> createAudit(string emailSender, string emailReciever, int fundAccSender, int fundAccReciever, int amount)
+        public async Task<Audits> createAudit(string emailSender, string emailReciever, int fundAccSender, int fundAccReciever, double amount)
         {
             string id = Guid.NewGuid().ToString();
             DocumentReference docRef = db.Collection("audits").Document(id);
@@ -227,21 +242,66 @@ namespace DataAccess.Repositories
             else
             {
                 Audits audit = new Audits();
-
-                var dateAndTime = DateTime.Now;
-                audit.DateOfLog = (dateAndTime.Date).ToString();
+                var dateTimeNow = DateTime.Now; 
+                var dateOnlyString = dateTimeNow.ToShortDateString();
+                audit.DateOfLog = dateOnlyString;
                 audit.Payee = emailSender;
                 audit.id = id;
                 audit.ReceivedAmount = amount;
                 audit.recieverAccountNo = fundAccReciever;
                 audit.senderAccountNo = fundAccSender;
                 audit.Reciever = emailReciever;
-
-
                 await docRef.SetAsync(audit);
                 return audit;
             }
         }
+
+        public async Task<List<Audits>> getAudits(string email)
+        {
+            Query auditQuery1 = db.Collection("audits").WhereEqualTo("Payee", email);
+            QuerySnapshot snapshot1 = await auditQuery1.GetSnapshotAsync();
+            List<Audits> auditsList1 = new List<Audits>();
+
+            Query auditQuery2 = db.Collection("audits").WhereEqualTo("Reciever", email);
+            QuerySnapshot snapshot2 = await auditQuery2.GetSnapshotAsync();
+            //List<Audits> auditsList2 = new List<Audits>();
+
+            foreach (DocumentSnapshot documentSnapshot in snapshot1.Documents)
+            {
+                auditsList1.Add(documentSnapshot.ConvertTo<Audits>());
+            }
+            foreach (DocumentSnapshot documentSnapshot in snapshot2.Documents)
+            {
+                auditsList1.Add(documentSnapshot.ConvertTo<Audits>());
+            }
+
+            return auditsList1;
+        }
+
+        public async Task<List<Audits>> getByDateAudits(string email, string dateFrom, string dateTo)
+        {
+            CollectionReference logRef = db.Collection("audits"); //.WhereEqualTo("Payee", email);
+            Query auditQuery1 = logRef.WhereGreaterThanOrEqualTo("DateOfLog", dateFrom).WhereLessThanOrEqualTo("DateOfLog",dateTo);
+            QuerySnapshot snapshot1 = await auditQuery1.GetSnapshotAsync();
+            List<Audits> auditsList1 = new List<Audits>();
+            List<Audits> auditsList2 = new List<Audits>();
+
+            foreach (DocumentSnapshot documentSnapshot in snapshot1.Documents)
+            {
+                auditsList1.Add(documentSnapshot.ConvertTo<Audits>());
+            }
+
+            for(int i=0; i<auditsList1.Count; i++)
+            {
+                if(email == auditsList1[i].Payee || email == auditsList1[i].Reciever)
+                {
+                    auditsList2.Add(auditsList1[i]);
+                }
+            }
+
+            return auditsList2;
+        }
+
 
     }
 }

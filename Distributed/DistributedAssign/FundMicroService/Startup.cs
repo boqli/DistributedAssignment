@@ -36,7 +36,7 @@ namespace FundMicroService
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "APIs", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Fund", Version = "v1" });
             });
             string projectName = Configuration["project"];
             services.AddScoped<IFireStoreDataAccess, FireStoreDataAccess>(x => {
@@ -51,7 +51,7 @@ namespace FundMicroService
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "APIs v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fund v1"));
             }
 
             app.UseHttpsRedirection();

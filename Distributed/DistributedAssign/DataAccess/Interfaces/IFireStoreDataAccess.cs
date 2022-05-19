@@ -19,6 +19,7 @@ namespace DataAccess.Interfaces
         Task<Fund> createFund(string bankCode, string BankName, string Country, string CountryCode, int openingBal, string payee);
         Task<List<Fund>> getAllFunds(string email);
         Task<List<Fund>> getSpecificFund(string email, int bankAccNo);
+        Task<List<Fund>> getSpecificFundWithId(string email, int bankAccNo);
         void deactivate(string email, int bankAccNo);
         Task<int> getAllFunds();
 
@@ -28,8 +29,9 @@ namespace DataAccess.Interfaces
         Task transferToOtherAccount(string email, int fundAccSender, int fundAccReciever, double money);
 
         //AUDIT
-        Task<Audits> createAudit(string emailSender, string emailReciever, int fundAccSender, int fundAccReciever, int amount);
-
+        Task<Audits> createAudit(string emailSender, string emailReciever, int fundAccSender, int fundAccReciever, double amount);
+        Task<List<Audits>> getAudits(string email);
+        Task<List<Audits>> getByDateAudits(string email, string dateFrom, string dateTo);
 
 
     }

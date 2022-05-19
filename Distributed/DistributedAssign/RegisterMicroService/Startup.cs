@@ -35,7 +35,7 @@ namespace RegisterMicroService
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "APIs", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Register", Version = "v1" });
             });
             string projectName = Configuration["project"];
             services.AddScoped<IFireStoreDataAccess, FireStoreDataAccess>(x => {
@@ -50,7 +50,7 @@ namespace RegisterMicroService
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "APIs v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Register v1"));
             }
 
             app.UseHttpsRedirection();

@@ -1,5 +1,5 @@
 ﻿@model Common.Fund
-
+@inject Presentation.Interfaces.IAPIDataAccess symbols
 @{
     ViewData["Title"] = "createFund";
 }
@@ -31,6 +31,20 @@
                 <label asp-for="CountryCode" class="control-label"></label>
                 <input asp-for="CountryCode" class="form-control" name="CountryCode" />
                 <span asp-validation-for="CountryCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="currencyCode" class="control-label"></label>
+                <div>
+                    @{
+                        var symbilz = symbols.getSymbols().Result;
+                    }
+                    <select asp-for="currencyCode" name="currencyCode">
+                        @for (int i = 0; i < symbilz.Count; i++)
+                        {
+                            <option value="@symbilz[i].symbol">@symbilz[i].symbol</option>
+                        }
+                    </select>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="OpeningBalance" class="control-label"></label>

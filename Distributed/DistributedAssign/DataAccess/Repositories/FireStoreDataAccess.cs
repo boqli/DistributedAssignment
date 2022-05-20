@@ -73,7 +73,7 @@ namespace DataAccess.Repositories
         }
 
         // ----------------- FUNDS ------------------------
-        public async Task<Fund> createFund(string bankCode, string BankName, string Country, string CountryCode, int openingBal, string payee)
+        public async Task<Fund> createFund(string bankCode, string BankName, string Country, string CountryCode,string currencyCode, int openingBal, string payee)
         {
             Task<int> count = getAllFunds();
             int num = count.Result + 1;
@@ -92,6 +92,7 @@ namespace DataAccess.Repositories
                 fund.BankName = BankName;
                 fund.Country = Country;
                 fund.CountryCode = CountryCode;
+                fund.currencyCode = currencyCode;
                 fund.OpeningBalance = openingBal;
                 fund.Payee = payee;
                 fund.id = Guid.NewGuid().ToString();
@@ -126,9 +127,9 @@ namespace DataAccess.Repositories
             return messages;
         }
 
-        public async Task<List<Fund>> getSpecificFund(string email, int bankAccNo)
+        public async Task<List<Fund>> getSpecificFund(int bankAccNo)
         {
-            Query messageQuery = db.Collection("fund").WhereEqualTo("Payee", email).WhereEqualTo("BankAccountNo",bankAccNo);
+            Query messageQuery = db.Collection("fund").WhereEqualTo("BankAccountNo",bankAccNo);
             QuerySnapshot messageQuerySnapshot = await messageQuery.GetSnapshotAsync();
             List<Fund> messages = new List<Fund>();
             foreach (DocumentSnapshot documentSnapshot in messageQuerySnapshot.Documents)
@@ -151,7 +152,7 @@ namespace DataAccess.Repositories
         }
         public async void deactivate(string email, int bankAccNo)
         {
-            List<Fund> fund = await getSpecificFund(email, bankAccNo);
+            List<Fund> fund = await getSpecificFund(bankAccNo);
             DocumentReference doc = db.Collection("fund").Document(bankAccNo.ToString());
             if (fund[0].isActive == true)
             {
@@ -169,13 +170,26 @@ namespace DataAccess.Repositories
                 };
                 await doc.UpdateAsync(u);
             }
-            
         }
+        public async Task<List<Fund>> Search( string fundNo)
+        {
+
+            Query messageQuery = db.Collection("fund").WhereGreaterThanOrEqualTo(FieldPath.DocumentId, fundNo).WhereLessThan(FieldPath.DocumentId, fundNo + '\uf8ff');
+            QuerySnapshot messageQuerySnapshot = await messageQuery.GetSnapshotAsync();
+            List<Fund> accounts = new List<Fund>();
+
+            foreach (DocumentSnapshot documentSnapshot in messageQuerySnapshot.Documents)
+            {
+                accounts.Add(documentSnapshot.ConvertTo<Fund>());
+            }
+            return accounts;
+        }
+
 
         //-------------------------TRANSACTIONS---------------------------
         public async void Deposit(string email, int bankAccNo, double money)
         {
-            List<Fund> fund = await getSpecificFund(email, bankAccNo);
+            List<Fund> fund = await getSpecificFund(bankAccNo);
             if (fund.Count == 1)
             {
                 DocumentReference doc = db.Collection("fund").Document(bankAccNo.ToString());
@@ -188,10 +202,10 @@ namespace DataAccess.Repositories
             }
         }
 
-        public async Task transferToOwnAccount(string email, int fundAccSender, int fundAccReciever ,double money)
+        public async Task transferToOwnAccount(string email, int fundAccSender, int fundAccReciever ,double money,double newMoney)
         {
-            List<Fund> fundSender = await getSpecificFund(email, fundAccSender);
-            List<Fund> fundReciever = await getSpecificFund(email, fundAccReciever);
+            List<Fund> fundSender = await getSpecificFund(fundAccSender);
+            List<Fund> fundReciever = await getSpecificFund(fundAccReciever);
             //check currency 
             if(fundSender[0].Payee == fundReciever[0].Payee)
             {
@@ -200,7 +214,7 @@ namespace DataAccess.Repositories
                     DocumentReference doc = db.Collection("fund").Document(fundAccReciever.ToString());
                     Dictionary<string, object> u = new Dictionary<string, object>
                     {
-                        {"OpeningBalance", fundReciever[0].OpeningBalance+ money }
+                        {"OpeningBalance", fundReciever[0].OpeningBalance+ newMoney }
                     };
                     DocumentReference doc2 = db.Collection("fund").Document(fundAccSender.ToString());
                     Dictionary<string, object> u2 = new Dictionary<string, object>
@@ -214,9 +228,9 @@ namespace DataAccess.Repositories
             }
         }
 
-        public async Task transferToOtherAccount(string email, int fundAccSender, int fundAccReciever, double money)
+        public async Task transferToOtherAccount(string email, int fundAccSender, int fundAccReciever, double money, double newMoney)
         {
-            List<Fund> fundSender = await getSpecificFund(email, fundAccSender);
+            List<Fund> fundSender = await getSpecificFund(fundAccSender);
             List<Fund> fundReciever = await getSpecificFundWithId(email, fundAccReciever);
 
             if (fundSender[0].Payee != fundReciever[0].Payee)
@@ -226,7 +240,7 @@ namespace DataAccess.Repositories
                     DocumentReference doc = db.Collection("fund").Document(fundAccReciever.ToString());
                     Dictionary<string, object> u = new Dictionary<string, object>
                     {
-                        {"OpeningBalance", fundReciever[0].OpeningBalance+ money }
+                        {"OpeningBalance", fundReciever[0].OpeningBalance+ newMoney }
                     };
                     DocumentReference doc2 = db.Collection("fund").Document(fundAccSender.ToString());
                     Dictionary<string, object> u2 = new Dictionary<string, object>

@@ -1,6 +1,7 @@
 ﻿using Common;
 using DataAccess.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,9 @@ namespace FundMicroService.Controllers
         
 
         [HttpPost("createFund")]
-        public async Task<IActionResult> createFund(string bankCode, string BankName, string Country, string CountryCode, int openingBal, string payee)
+        public async Task<IActionResult> createFund(string bankCode, string BankName, string Country, string CountryCode,string currencyCode, int openingBal, string payee)
         {
-            Fund fund =  await fireStore.createFund( bankCode,  BankName,  Country,  CountryCode,  openingBal,  payee);
+            Fund fund =  await fireStore.createFund( bankCode,  BankName,  Country,  CountryCode,currencyCode,  openingBal,  payee);
             return Ok(fund);
         }
 
@@ -40,9 +41,9 @@ namespace FundMicroService.Controllers
         }
 
         [HttpGet("getSpecificFund")]
-        public async Task<IActionResult> getSpecificFund(string email, int bankAccNo)
+        public async Task<IActionResult> getSpecificFund( int bankAccNo)
         {
-            List<Fund> fund = await fireStore.getSpecificFund(email, bankAccNo);
+            List<Fund> fund = await fireStore.getSpecificFund(bankAccNo);
             return Ok(fund);
 
         }
@@ -54,6 +55,13 @@ namespace FundMicroService.Controllers
             return Ok();
         }
 
+        [HttpGet("Search")]
+        public async Task<ActionResult> Search(string email, string accNo)
+        {
+            List<Fund> account = await fireStore.Search(accNo);
+            string json = JsonConvert.SerializeObject(accNo);
+            return Ok(account);
+        }
 
 
     }

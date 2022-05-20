@@ -41,9 +41,9 @@ namespace Presentation.Controllers
         public async Task<IActionResult> createFund(IFormCollection form)
         {
             Fund fund = new Fund();
-            HttpClient client = help.FundMicroService();
+            HttpClient client = help.FundMicroService();//createFund?bankCode=BOV&BankName=BankOfValletta&Country=Malta&CountryCode=MT&currencyCode=EUR&openingBal=1000&payee=kyleisstar%40gmail.com
             var stringContent = new StringContent(JsonConvert.SerializeObject(fund), Encoding.UTF8, "application/json");
-            HttpResponseMessage res = await client.PostAsync("createFund?bankCode=" + form["BankCode"] + "&BankName=" + form["BankName"] + "&Country=" + form["Country"] + "&CountryCode=" +form["CountryCode"] + "&openingBal="+form["OpeningBalance"] + "&payee="+form["payee"], stringContent);
+            HttpResponseMessage res = await client.PostAsync("createFund?bankCode=" + form["BankCode"] + "&BankName=" + form["BankName"] + "&Country=" + form["Country"] + "&CountryCode=" +form["CountryCode"] + "&currencyCode="+form["currencyCode"] + "&openingBal="+form["OpeningBalance"] + "&payee="+form["payee"], stringContent);
             if (res.IsSuccessStatusCode)
             {
                 var senten = res.Content.ReadAsStringAsync().Result;
@@ -88,29 +88,28 @@ namespace Presentation.Controllers
             return RedirectToAction("getFunds");
         }
 
-        /*
-        [HttpGet("getFunds")]
-        public async Task<IActionResult> getFunds(string email)
+        [HttpGet]
+        public async Task<ActionResult> Search()
         {
-            List<Fund> funds = await fireStore.getAllFunds(email);
-            return Ok(funds);
-
+            return View();
         }
 
-        [HttpGet("getSpecificFund")]
-        public async Task<IActionResult> getSpecificFund(string email, int bankAccNo)
+        [HttpPost]
+        public async Task<ActionResult> Search(IFormCollection form)
         {
-            List<Fund> fund = await fireStore.getSpecificFund(email, bankAccNo);
-            return Ok(fund);
 
+            List<Fund> acc = new List<Fund>();
+            HttpClient client = help.FundMicroService();
+            HttpResponseMessage res = await client.GetAsync("Search?email=" + User.Claims.ElementAt(4).Value + "&accNo=" + form["Search"]);
+            if (res.IsSuccessStatusCode)
+            {
+                var senten = res.Content.ReadAsStringAsync().Result;
+                acc = JsonConvert.DeserializeObject<List<Fund>>(senten);
+            }
+            return View(acc);
         }
 
-        [HttpPost("deactivate")]
-        public async Task<IActionResult> deactivate(string email, int fundAcc)
-        {
-            fireStore.deactivate(email, fundAcc);
-            return Ok();
-        }
-        */
+
+
     }
 }

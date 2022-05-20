@@ -1,4 +1,6 @@
-﻿using DataAccess.Interfaces;
+﻿using APIs.API;
+using Common;
+using DataAccess.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ namespace TransferMicroService.Controllers
     public class TransferController : Controller
     {
         private IFireStoreDataAccess fireStore;
+        private readonly ExchangeAPI exchangeAPI = ExchangeAPI.exchangeAPIInstance;
 
         public TransferController(IFireStoreDataAccess _fireStore)
         {
@@ -32,14 +35,29 @@ namespace TransferMicroService.Controllers
         [HttpPost("transferToOwnAccount")]
         public async Task<IActionResult> transferToOwnAccount(string email, int fundAccSender, int fundAccReciever, double money)
         {
-            fireStore.transferToOwnAccount(email, fundAccSender, fundAccReciever, money);
+            List<Fund> fundFrom = await fireStore.getSpecificFund(fundAccSender);
+            List<Fund> fundTo = await fireStore.getSpecificFund(fundAccReciever);
+
+            string queryString = "?to=" + fundTo[0].currencyCode + "&from=" + fundFrom[0].currencyCode + "&amount=" + money;
+            double newMoney = exchangeAPI.convert(queryString);
+
+            
+            fireStore.transferToOwnAccount(email, fundAccSender, fundAccReciever,money ,newMoney);
             return Ok();
         }
 
         [HttpPost("transferToOtherAccount")]
         public async Task<IActionResult> transferToOtherAccount(string email, int fundAccSender, int fundAccReciever, double money)
         {
-            fireStore.transferToOtherAccount(email, fundAccSender, fundAccReciever, money);
+            List<Fund> fundFrom = await fireStore.getSpecificFund(fundAccSender);
+            List<Fund> fundTo = await fireStore.getSpecificFund(fundAccReciever);
+
+            string queryString = "?to=" + fundTo[0].currencyCode + "&from=" + fundFrom[0].currencyCode + "&amount=" + money;
+            double newMoney = exchangeAPI.convert(queryString);
+
+
+            fireStore.transferToOtherAccount(email, fundAccSender, fundAccReciever, money ,newMoney);
+            //fireStore.transferToOtherAccount(email, fundAccSender, fundAccReciever, money);
             return Ok();
         }
 

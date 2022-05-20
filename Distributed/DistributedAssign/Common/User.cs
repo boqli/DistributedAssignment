@@ -39,6 +39,8 @@ namespace Common
 
         [FirestoreProperty]
         public double OpeningBalance { get; set; }
+        [FirestoreProperty]
+        public string currencyCode { get; set; }
 
         [FirestoreProperty]
         public string Payee { get; set; }
@@ -73,6 +75,11 @@ namespace Common
         [FirestoreProperty]
         public int senderAccountNo { get; set; }
 
+    }
+
+    public class Symbols{
+
+        public string symbol { get; set; }
     }
 
 

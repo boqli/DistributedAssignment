@@ -27,7 +27,7 @@ namespace Presentation.Controllers
             User user = new User();
 
             HttpClient client = help.RegisterMicroService();
-            HttpResponseMessage res = await client.GetAsync("PUTMEthodhere?email=" + User.Claims.ElementAt(4).Value);
+            HttpResponseMessage res = await client.GetAsync("GetUserInformation?email=" + User.Claims.ElementAt(4).Value);
 
             if (res.IsSuccessStatusCode)
             {
@@ -37,12 +37,12 @@ namespace Presentation.Controllers
             return View(user);
         }
 
-        public async Task<IActionResult> Register(IFormCollection fr)
+        public async Task<IActionResult> Register(IFormCollection form)
         {
             User user = new User();
             HttpClient client = help.RegisterMicroService();
             var stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-            HttpResponseMessage res = await client.PostAsync("Register/Register?email=" + User.Claims.ElementAt(4).Value + "&name=" +fr["FirstName"] + "&surname=" + fr["LastName"] ,stringContent);
+            HttpResponseMessage res = await client.PostAsync("Register/Register?email=" + User.Claims.ElementAt(4).Value + "&name=" +form["FirstName"] + "&surname=" + form["LastName"] ,stringContent);
             if (res.IsSuccessStatusCode)
             {
                 var senten = res.Content.ReadAsStringAsync().Result;

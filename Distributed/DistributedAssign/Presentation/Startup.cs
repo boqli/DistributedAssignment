@@ -17,6 +17,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Presentation.Interfaces;
+using Presentation.Repositories;
 
 namespace Presentation
 {
@@ -75,7 +77,9 @@ namespace Presentation
             services.AddScoped<IFireStoreDataAccess, FireStoreDataAccess>(x=> {
                 return new FireStoreDataAccess(projectName);
             });
-
+            services.AddScoped<IAPIDataAccess, APIDataAccess>(x => {
+                return new APIDataAccess();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -38,12 +38,21 @@ namespace TransferMicroService.Controllers
             List<Fund> fundFrom = await fireStore.getSpecificFund(fundAccSender);
             List<Fund> fundTo = await fireStore.getSpecificFund(fundAccReciever);
 
-            string queryString = "?to=" + fundTo[0].currencyCode + "&from=" + fundFrom[0].currencyCode + "&amount=" + money;
-            double newMoney = exchangeAPI.convert(queryString);
+            if(fundTo[0].currencyCode != fundFrom[0].currencyCode)
+            {
+                string queryString = "?to=" + fundTo[0].currencyCode + "&from=" + fundFrom[0].currencyCode + "&amount=" + money;
+                double newMoney = exchangeAPI.convert(queryString);
 
+
+                fireStore.transferToOwnAccount(email, fundAccSender, fundAccReciever, money, newMoney);
+                return Ok();
+            }
+            else
+            {
+                fireStore.transferToOwnAccount(email, fundAccSender, fundAccReciever, money, money);
+                return Ok();
+            }
             
-            fireStore.transferToOwnAccount(email, fundAccSender, fundAccReciever,money ,newMoney);
-            return Ok();
         }
 
         [HttpPost("transferToOtherAccount")]
@@ -51,14 +60,18 @@ namespace TransferMicroService.Controllers
         {
             List<Fund> fundFrom = await fireStore.getSpecificFund(fundAccSender);
             List<Fund> fundTo = await fireStore.getSpecificFund(fundAccReciever);
-
-            string queryString = "?to=" + fundTo[0].currencyCode + "&from=" + fundFrom[0].currencyCode + "&amount=" + money;
-            double newMoney = exchangeAPI.convert(queryString);
-
-
-            fireStore.transferToOtherAccount(email, fundAccSender, fundAccReciever, money ,newMoney);
-            //fireStore.transferToOtherAccount(email, fundAccSender, fundAccReciever, money);
-            return Ok();
+            if (fundTo[0].currencyCode != fundFrom[0].currencyCode)
+            {
+                string queryString = "?to=" + fundTo[0].currencyCode + "&from=" + fundFrom[0].currencyCode + "&amount=" + money;
+                double newMoney = exchangeAPI.convert(queryString);
+                fireStore.transferToOtherAccount(email, fundAccSender, fundAccReciever, money, newMoney);
+                return Ok();
+            }
+            else
+            {
+                fireStore.transferToOtherAccount(email, fundAccSender, fundAccReciever, money, money);
+                return Ok();
+            }
         }
 
 

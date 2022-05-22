@@ -1,26 +1,41 @@
 ﻿@model Presentation.Models.Curr
-
+@inject Presentation.Interfaces.IAPIDataAccess symbols
 @{
     ViewData["Title"] = "Calc";
 }
 
 <h1>Calculate</h1>
 
-<hr/>
+<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Calc">
+            <div class="form-group">
+                <label asp-for="Currency" class="control-label"></label>
+                <div>
+                    @{
+                        var symbilz = symbols.getSymbols().Result;
+                    }
+                    <select asp-for="Currency" name="to">
+                        @for (int i = 0; i < symbilz.Count; i++)
+                        {
+                            <option value="@symbilz[i].symbol">@symbilz[i].symbol</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Currency" class="control-label"></label>
+                <div>
+                    <select asp-for="Currency" name="from">
+                        @for (int i = 0; i < symbilz.Count; i++)
+                        {
+                            <option value="@symbilz[i].symbol">@symbilz[i].symbol</option>
+                        }
+                    </select>
+                </div>
+            </div>
 
-            <div class="form-group">
-                <label class="control-label">Currency To</label>
-                <input asp-for="Currency" name="to" class="form-control" />
-                <span asp-validation-for="Currency" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Currency From</label>
-                <input asp-for="Currency" name="from" class="form-control" />
-                <span asp-validation-for="Currency" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label class="control-label">Amount</label>
                 <input name="amount" class="form-control" />

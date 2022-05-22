@@ -99,9 +99,6 @@ namespace Presentation.Controllers
             }
             return RedirectToAction("Index");
         }
-        //https://localhost:44306/transferToOwnAccount?email=kyleisstar%40gmail.com&fundAccSender=1&fundAccReciever=2&money=100
-        //https://localhost:44306/transferToOtherAccount?email=kyleisstar%40gmail.com&fundAccSender=1&fundAccReciever=4&money=100
-
 
     }
 }

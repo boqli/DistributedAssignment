@@ -37,7 +37,6 @@ namespace TransferMicroService.Controllers
         {
             List<Fund> fundFrom = await fireStore.getSpecificFund(fundAccSender);
             List<Fund> fundTo = await fireStore.getSpecificFund(fundAccReciever);
-
             if(fundTo[0].currencyCode != fundFrom[0].currencyCode)
             {
                 string queryString = "?to=" + fundTo[0].currencyCode + "&from=" + fundFrom[0].currencyCode + "&amount=" + money;
@@ -45,12 +44,16 @@ namespace TransferMicroService.Controllers
 
 
                 fireStore.transferToOwnAccount(email, fundAccSender, fundAccReciever, money, newMoney);
+                
                 return Ok();
+                
+               
             }
             else
             {
                 fireStore.transferToOwnAccount(email, fundAccSender, fundAccReciever, money, money);
                 return Ok();
+
             }
             
         }

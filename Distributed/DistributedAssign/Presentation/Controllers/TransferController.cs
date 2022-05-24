@@ -52,7 +52,7 @@ namespace Presentation.Controllers
                 var senten = res.Content.ReadAsStringAsync().Result;
                 fund = JsonConvert.DeserializeObject<Fund>(senten);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("getFunds", "Fund");
         }
 
 
@@ -75,7 +75,7 @@ namespace Presentation.Controllers
                 var senten = res.Content.ReadAsStringAsync().Result;
                 fund = JsonConvert.DeserializeObject<Fund>(senten);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("getFunds", "Fund");
         }
 
         [HttpGet]
@@ -97,7 +97,7 @@ namespace Presentation.Controllers
                 var senten = res.Content.ReadAsStringAsync().Result;
                 fund = JsonConvert.DeserializeObject<Fund>(senten);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("getFunds", "Fund");
         }
 
     }

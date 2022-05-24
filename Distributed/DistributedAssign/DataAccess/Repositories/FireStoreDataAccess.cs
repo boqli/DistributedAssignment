@@ -73,7 +73,7 @@ namespace DataAccess.Repositories
         }
 
         // ----------------- FUNDS ------------------------
-        public async Task<Fund> createFund(string bankCode, string BankName, string Country, string CountryCode,string currencyCode, int openingBal, string payee)
+        public async Task<Fund> createFund(int IBAN, string bankCode, string BankName, string Country, string CountryCode,string currencyCode, int openingBal, string payee)
         {
             Task<int> count = getAllFunds();
             int num = count.Result + 1;
@@ -87,7 +87,8 @@ namespace DataAccess.Repositories
             else
             {
                 Fund fund = new Fund();
-                fund.BankAccountNo = num;
+                fund.fundNo = num;
+                fund.IBAN = IBAN;
                 fund.BankCode = bankCode;
                 fund.BankName = BankName;
                 fund.Country = Country;
@@ -129,7 +130,7 @@ namespace DataAccess.Repositories
 
         public async Task<List<Fund>> getSpecificFund(int bankAccNo)
         {
-            Query messageQuery = db.Collection("fund").WhereEqualTo("BankAccountNo",bankAccNo);
+            Query messageQuery = db.Collection("fund").WhereEqualTo("fundNo",bankAccNo);
             QuerySnapshot messageQuerySnapshot = await messageQuery.GetSnapshotAsync();
             List<Fund> messages = new List<Fund>();
             foreach (DocumentSnapshot documentSnapshot in messageQuerySnapshot.Documents)
@@ -141,7 +142,7 @@ namespace DataAccess.Repositories
 
         public async Task<List<Fund>> getSpecificFundWithId(string email, int bankAccNo)
         {
-            Query messageQuery = db.Collection("fund").WhereEqualTo("BankAccountNo", bankAccNo);
+            Query messageQuery = db.Collection("fund").WhereEqualTo("fundNo", bankAccNo);
             QuerySnapshot messageQuerySnapshot = await messageQuery.GetSnapshotAsync();
             List<Fund> messages = new List<Fund>();
             foreach (DocumentSnapshot documentSnapshot in messageQuerySnapshot.Documents)
@@ -209,7 +210,7 @@ namespace DataAccess.Repositories
             //check currency 
             if(fundSender[0].Payee == fundReciever[0].Payee)
             {
-                if(fundSender[0].OpeningBalance > money)
+                if(fundSender[0].OpeningBalance >= money)
                 {
                     DocumentReference doc = db.Collection("fund").Document(fundAccReciever.ToString());
                     Dictionary<string, object> u = new Dictionary<string, object>
@@ -235,7 +236,7 @@ namespace DataAccess.Repositories
 
             if (fundSender[0].Payee != fundReciever[0].Payee)
             {
-                if (fundSender[0].OpeningBalance > money)
+                if (fundSender[0].OpeningBalance >= money)
                 {
                     DocumentReference doc = db.Collection("fund").Document(fundAccReciever.ToString());
                     Dictionary<string, object> u = new Dictionary<string, object>

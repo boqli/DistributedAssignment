@@ -25,9 +25,9 @@ namespace FundMicroService.Controllers
         
 
         [HttpPost("createFund")]
-        public async Task<IActionResult> createFund(string bankCode, string BankName, string Country, string CountryCode,string currencyCode, int openingBal, string payee)
+        public async Task<IActionResult> createFund(int IBAN, string bankCode, string BankName, string Country, string CountryCode,string currencyCode, int openingBal, string payee)
         {
-            Fund fund =  await fireStore.createFund( bankCode,  BankName,  Country,  CountryCode,currencyCode,  openingBal,  payee);
+            Fund fund =  await fireStore.createFund(IBAN, bankCode,  BankName,  Country,  CountryCode,currencyCode,  openingBal,  payee);
             return Ok(fund);
         }
 

@@ -41,15 +41,15 @@ namespace Presentation.Controllers
         public async Task<IActionResult> createFund(IFormCollection form)
         {
             Fund fund = new Fund();
-            HttpClient client = help.FundMicroService();//createFund?bankCode=BOV&BankName=BankOfValletta&Country=Malta&CountryCode=MT&currencyCode=EUR&openingBal=1000&payee=kyleisstar%40gmail.com
+            HttpClient client = help.FundMicroService();//IBAN=35656&bankCode=BOV&BankName=BOV&Country=MALTA&CountryCode=MT&currencyCode=EUR&openingBal=100&payee=kyleisstar%40gmail.com
             var stringContent = new StringContent(JsonConvert.SerializeObject(fund), Encoding.UTF8, "application/json");
-            HttpResponseMessage res = await client.PostAsync("createFund?bankCode=" + form["BankCode"] + "&BankName=" + form["BankName"] + "&Country=" + form["Country"] + "&CountryCode=" +form["CountryCode"] + "&currencyCode="+form["currencyCode"] + "&openingBal="+form["OpeningBalance"] + "&payee="+form["payee"], stringContent);
+            HttpResponseMessage res = await client.PostAsync("createFund?IBAN="+form["IBAN"]+"&bankCode=" + form["BankCode"] + "&BankName=" + form["BankName"] + "&Country=" + form["Country"] + "&CountryCode=" +form["CountryCode"] + "&currencyCode="+form["currencyCode"] + "&openingBal="+form["OpeningBalance"] + "&payee=" + User.Claims.ElementAt(4).Value, stringContent);
             if (res.IsSuccessStatusCode)
             {
                 var senten = res.Content.ReadAsStringAsync().Result;
                 fund = JsonConvert.DeserializeObject<Fund>(senten);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("getFunds");
         }
 
         [HttpGet]
@@ -93,9 +93,9 @@ namespace Presentation.Controllers
         {
             return View();
         }
-
+        /*
         [HttpPost]
-        public async Task<ActionResult> Search(IFormCollection form)
+        public async Task<IActionResult> Search(IFormCollection form)
         {
 
             List<Fund> acc = new List<Fund>();
@@ -108,7 +108,22 @@ namespace Presentation.Controllers
             }
             return View(acc);
         }
+        */
+        [HttpPost]
+        public async Task<ActionResult> Search(IFormCollection form)
+        {
+            List<Fund> acc = new List<Fund>();
 
+            HttpClient client = help.FundMicroService();
+            HttpResponseMessage res = await client.GetAsync("Search?email=" + User.Claims.ElementAt(4).Value + "&accNo=" + form["Search"]);
+
+            if (res.IsSuccessStatusCode)
+            {
+                var senten = res.Content.ReadAsStringAsync().Result;
+                acc = JsonConvert.DeserializeObject<List<Fund>>(senten);
+            }
+            return View(acc);
+        }
 
 
     }

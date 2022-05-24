@@ -22,5 +22,6 @@ namespace TransferMicroService2
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
     }
 }

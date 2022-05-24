@@ -23,7 +23,9 @@ namespace Common
     public class Fund
     {
         [FirestoreProperty]
-        public int BankAccountNo { get; set; }
+        public int fundNo { get; set; }
+        [FirestoreProperty]
+        public int IBAN { get; set; }
 
         [FirestoreProperty]
         public string BankCode { get; set; }

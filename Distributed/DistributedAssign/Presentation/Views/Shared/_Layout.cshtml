@@ -12,7 +12,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Presentation</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,19 +26,19 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Register</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Account Details</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Fund" asp-action="Index">Funds</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Transfer" asp-action="Index">Transfer</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Transfer" asp-action="Index">Transfer Money</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="Index">Audits</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="Index">Transfer Audits</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="API" asp-action="Calc">Calculate Conversion</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="API" asp-action="Calc">Currency Conversion</a>
                             </li>
 
                         }

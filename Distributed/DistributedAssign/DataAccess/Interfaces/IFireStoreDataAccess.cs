@@ -16,7 +16,7 @@ namespace DataAccess.Interfaces
         void AddUser(User user);
 
         //FUNDS
-        Task<Fund> createFund(string bankCode, string BankName, string Country, string CountryCode, string currencyCode,int openingBal, string payee);
+        Task<Fund> createFund(int IBAN,string bankCode, string BankName, string Country, string CountryCode, string currencyCode,int openingBal, string payee);
         Task<List<Fund>> getAllFunds(string email);
         Task<List<Fund>> getSpecificFund( int bankAccNo);
         Task<List<Fund>> getSpecificFundWithId(string email, int bankAccNo);

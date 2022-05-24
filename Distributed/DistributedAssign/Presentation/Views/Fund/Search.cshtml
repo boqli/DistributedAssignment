@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Common.Fund>
 
 @{
-    ViewData["Title"] = "getFunds";
+    ViewData["Title"] = "Search";
 }
 
-<h1>Get Funds</h1>
+<h1>Search</h1>
 
 <table class="table">
     <thead>
@@ -13,13 +13,13 @@
                 @Html.DisplayNameFor(model => model.IBAN)
             </th>
             <th>
-                Fund No
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.BankCode)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.BankName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fundNo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Country)
@@ -28,10 +28,16 @@
                 @Html.DisplayNameFor(model => model.CountryCode)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.OpeningBalance)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.currencyCode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OpeningBalance)
+                @Html.DisplayNameFor(model => model.Payee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.isActive)
@@ -46,13 +52,13 @@
                 @Html.DisplayFor(modelItem => item.IBAN)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.fundNo)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.BankCode)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fundNo)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Country)
@@ -61,16 +67,19 @@
                 @Html.DisplayFor(modelItem => item.CountryCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.currencyCode)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.OpeningBalance)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.isActive)
+                @Html.DisplayFor(modelItem => item.currencyCode)
             </td>
             <td>
-                <a role="button" href="@Url.Action("disableFund", "Fund")" class="btn btn-success">Active Status</a>
+                @Html.DisplayFor(modelItem => item.Payee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isActive)
             </td>
         </tr>
 }

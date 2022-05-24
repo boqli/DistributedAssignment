@@ -37,7 +37,7 @@ namespace Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string projectName = Configuration["project"];
+            string projectName = "distributedboqli";
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
@@ -47,9 +47,8 @@ namespace Presentation
                     CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
             });
 
-
-            string clientId = Configuration["Authentication:Google:ClientId"];
-            string clientSecret = Configuration["Authentication:Google:ClientSecret"];
+            string clientId = "487339900531-q8chhhe9t75i3hde2j930mshbhsbv90o.apps.googleusercontent.com";
+            string clientSecret = "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";
 
             // requires
             // using Microsoft.AspNetCore.Authentication.Cookies;
@@ -64,7 +63,7 @@ namespace Presentation
                 .AddCookie()
                 .AddGoogle(options =>
                 {
-                    options.ClientId =clientId;
+                    options.ClientId = clientId;
                     options.ClientSecret = clientSecret;
                 });
 
@@ -72,9 +71,9 @@ namespace Presentation
 
             services.AddControllersWithViews();
 
-           
 
-            services.AddScoped<IFireStoreDataAccess, FireStoreDataAccess>(x=> {
+
+            services.AddScoped<IFireStoreDataAccess, FireStoreDataAccess>(x => {
                 return new FireStoreDataAccess(projectName);
             });
             services.AddScoped<IAPIDataAccess, APIDataAccess>(x => {
@@ -120,10 +119,10 @@ namespace Presentation
             {
                 var userAgent = httpContext.Request.Headers["User-Agent"].ToString();
                 // TODO: Use your User Agent library of choice here.
-                
-                    // For .NET Core < 3.1 set SameSite = (SameSiteMode)(-1)
-                    options.SameSite = SameSiteMode.Unspecified;
-                
+
+                // For .NET Core < 3.1 set SameSite = (SameSiteMode)(-1)
+                options.SameSite = SameSiteMode.Unspecified;
+
             }
         }
     }
